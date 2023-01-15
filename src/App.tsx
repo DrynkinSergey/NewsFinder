@@ -3,56 +3,56 @@ import {TextField} from "@mui/material";
 import './main.scss'
 import axios from "axios";
 import Article from "./components/Article/Article";
+import Highlighter from "react-highlight-words";
 
 export interface ArticlesData {
     author?: string,
     title: string,
     urlToImage: string,
     description: string,
-    publishedAt: string
+    publishedAt: string,
+    tags:string[]
 }
 
+
 const App = () => {
+    const [tags, setTags] = React.useState([''])
 
     const [data, setData] = React.useState<ArticlesData[]>([])
-    const [filteredData, setFilteredData] = React.useState<ArticlesData[]>([])
-
+    const [test, setTest] = React.useState<ArticlesData[]>([])
+    const [visibleData, setVisibleData] = React.useState<ArticlesData[]>([])
+    const url = 'https://saurav.tech/NewsAPI/top-headlines/category/general/us.json'
     React.useEffect(() => {
-        axios.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b6677a0e100e4a31b13eafcaaad599a0')
-            .then(res => setData(res.data.articles))
+
+        axios.get(url)
+            .then(res => {
+                setData(res.data.articles)
+                setVisibleData(res.data.articles)
+            })
+
+
     }, []);
+
+
     const filterData = (e: string) => {
-
-
-
-            const isFiltered = data.filter(item =>  item.title.toLowerCase().includes(e.toLowerCase())
-            )
-
-            setFilteredData(isFiltered)
-
-
+            setTags(e.split(' '))
+         const isFiltered = data.filter(item => item.title.match(new RegExp(tags.join('|'), 'i') ))
+        isFiltered? setVisibleData(isFiltered ) : setVisibleData(data)
     }
 
     return (
         <div className="app">
             <h1> Filter by keywords</h1>
-            <TextField onChange={(e) => filterData(e.currentTarget.value)} id="outlined-basic"
-                       label="Enter your request" variant="outlined"/>
+            <TextField onChange={(e) => filterData(e.target.value)} id="outlined-basic"
+                       label="Enter your tags..." variant="outlined"/>
 
-            <h2>Result:{data.length}</h2>
+            <h2>Results:{visibleData.length}</h2>
             <div className='articles'>
                 {
-                    filteredData.length!=0  ? filteredData.map(item => <Article key={item.author} title={item.title}
-                                                                                description={item.description}
-                                                                                urlToImage={item.urlToImage}
-                                                                                publishedAt={item.publishedAt}/>
-                        )
-                        :
-                        data.map(item => <Article key={item.author} title={item.title}
-                                                  description={item.description} urlToImage={item.urlToImage}
-                                                  publishedAt={item.publishedAt}/>
-                        )
-
+                    visibleData.map(item => <Article tags={tags}  key={item.title} title={item.title}
+                                                     description={item.description} urlToImage={item.urlToImage}
+                                                     publishedAt={item.publishedAt}/>
+                    )
                 }
             </div>
         </div>
