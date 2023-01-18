@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextField} from "@mui/material";
-import axios from "axios";
 import Article from "../components/Article/Article";
+import {useData} from "./useData";
 
 
 export interface ArticlesData {
@@ -11,25 +11,19 @@ export interface ArticlesData {
     imageUrl: string,
     summary: string,
     publishedAt: string,
-    tags: string[]
+    tags: string[],
 }
-
 
 const HomePage = () => {
     const [tags, setTags] = React.useState([''])
-    const [data, setData] = React.useState<ArticlesData[]>([])
-    const [visibleData, setVisibleData] = React.useState<ArticlesData[]>([])
     const url = 'https://api.spaceflightnewsapi.net/v3/articles?_limit=90'
-    React.useEffect(() => {
-
-        axios.get(url)
-            .then(res => {
-                //get data from API set for search and filter
-                setData(res.data)
-                setVisibleData(res.data)
-            })
-    }, []);
-
+    const {visibleData, data, setVisibleData} = useData(url)
+    const articles = visibleData.map(item => <Article
+        tags={tags} id={item.id} key={item.id}
+        title={item.title.slice(0, 100)}
+        summary={item.summary.slice(0, 100)} imageUrl={item.imageUrl}
+        publishedAt={item.publishedAt}/>
+    )
 
     const filterData = (e: string) => {
         // set tags from input and add to array
@@ -41,7 +35,6 @@ const HomePage = () => {
         isFiltered ? setVisibleData(isFiltered) : setVisibleData(data)
     }
 
-
     return (
         <div className="app">
             <h1> Filter by keywords</h1>
@@ -49,16 +42,9 @@ const HomePage = () => {
                        id="outlined-basic"
                        label="Enter your tags..."
                        variant="outlined"/>
-
             <h2>Results:{visibleData.length}</h2>
             <div className='articles'>
-                {
-                    visibleData.map(item => <Article tags={tags} id={item.id} key={item.id}
-                                                     title={item.title.slice(0, 100)}
-                                                     summary={item.summary.slice(0, 100)} imageUrl={item.imageUrl}
-                                                     publishedAt={item.publishedAt}/>
-                    )
-                }
+                {articles}
             </div>
         </div>
     );

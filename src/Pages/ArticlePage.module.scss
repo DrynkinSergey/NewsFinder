@@ -1,0 +1,32 @@
+@import "../variables";
+.article{
+  color:$base-color;
+  h1{
+    text-align: center;
+  }
+  h2{
+    border: none;
+    color:black;
+  }
+  .btnBack{
+    position: absolute;
+    font-weight: 700;
+    bottom: 50px;
+  }
+  .articleImg{
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .content{
+    position: relative;
+    padding:55px 75px ;
+    background-color: white;
+    height: 80vh;
+    box-shadow: $box-shadow;
+  }
+}
