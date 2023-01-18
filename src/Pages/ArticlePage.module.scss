@@ -1,6 +1,10 @@
 @import "../variables";
 .article{
   color:$base-color;
+  padding-top: 80px;
+  max-width: 1500px;
+  margin: 0 auto;
+
   h1{
     text-align: center;
   }
@@ -17,16 +21,29 @@
     top: 0;
     left: 0;
     position: absolute;
-    height: 250px;
+    height: 300px;
     width: 100%;
     object-fit: cover;
     z-index: -1;
   }
   .content{
+    overflow: hidden;
     position: relative;
     padding:55px 75px ;
     background-color: white;
     height: 80vh;
     box-shadow: $box-shadow;
+
+
+    @media (max-width: 968px) {
+      padding: 25px 35px;
+    }
+    @media (max-width: 568px) {
+      padding: 15px 35px;
+    }
+    @media (max-width: 368px) {
+      padding: 10px;
+    }
+
   }
 }

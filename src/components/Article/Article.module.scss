@@ -1,21 +1,33 @@
 @import "src/variables";
 
 .article{
+  overflow: hidden;
   position: relative;
-  width: 400px;
   height: 530px;
   box-shadow: $box-shadow;
   border-radius: 5px;
   color: $base-color;
-  >:not(:first-child) {
-    padding: 0 20px;
+  transition: all .5s ease;
+
+  &:hover{
+    cursor: pointer;
+    transform: translateY(-15px);
+    box-shadow: 2px 8px 24px rgba(7, 103, 224, 0.45);
+    img{
+      transform: scale(1.1);
+    }
 
   }
+  >:not(:first-child) {
+    padding: 0 20px;
+  }
   img{
-    width: 400px;
+    width: 100%;
     height: 217px;
     object-fit: cover;
     margin-bottom: 10px;
+    transition: all 0.8s ease-out;
+
   }
 
   .date{
@@ -32,7 +44,13 @@
     margin-bottom: 20px;
     font-size: 16px;
   }
+
   a{
+    span{
+      &:hover{
+        color:blue;
+      }
+    }
     position: absolute;
     bottom:20px;
     font-weight: 700;

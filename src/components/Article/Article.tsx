@@ -3,13 +3,13 @@ import styles from './Article.module.scss'
 
 import Highlighter from "react-highlight-words";
 import {ArticlesData} from "../../Pages/HomePage";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 const Article:React.FC<ArticlesData> = (props) => {
     return (
-        <Link  to={`Article/${props.id}`}>
-            <article className={styles.article}>
+
+            <div className={styles.article}>
                 <img src={props.imageUrl} alt="articleImg"/>
                 <div className={styles.date}>{props.publishedAt}</div>
 
@@ -31,9 +31,9 @@ const Article:React.FC<ArticlesData> = (props) => {
                     />
                     ...
                 </div>
-                <a href='#'>Read more </a>
-            </article>
-        </Link>
+                <NavLink  to={`Article/${props.id}`}><span>Read more </span></NavLink>
+            </div>
+
     );
 };
 

@@ -26,7 +26,6 @@ const ArticlePage = () => {
     }, []);
     return (
         <>
-
             <main className={styles.article}>
                 <img className={styles.articleImg} src={data?.imageUrl} alt="articleImg"/>
                 <div className={styles.content}>
